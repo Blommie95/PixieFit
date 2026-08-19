@@ -26,14 +26,29 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir -p extracted
-      ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
-echo "Using ZIP: $ZIP_FILE"
-unzip -o "$ZIP_FILE" -d extracted
+
+          ZIP_FILE=$(find . -maxdepth 2 -type f -name "*.zip" | head -n 1)
+
+          if [ -z "$ZIP_FILE" ]; then
+            echo "ERROR: No ZIP file found!"
+            find . -maxdepth 2 -type f
+            exit 1
+          fi
+
+          echo "Using ZIP: $ZIP_FILE"
+          unzip -o "$ZIP_FILE" -d extracted
 
       - name: Find Android project
         run: |
-          PROJECT_DIR=$(find extracted -name settings.gradle -type f -print -quit | xargs dirname)
-          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          PROJECT_DIR=$(find extracted -type f -name "gradlew" -print -quit | xargs dirname)
+
+          if [ -z "$PROJECT_DIR" ] || [ "$PROJECT_DIR" = "." ]; then
+            echo "ERROR: Android project not found!"
+            find extracted -maxdepth 4 -type f | head -100
+            exit 1
+          fi
+
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
           echo "Android project found at: $PROJECT_DIR"
 
       - name: Set up Gradle
@@ -42,19 +57,24 @@ unzip -o "$ZIP_FILE" -d extracted
       - name: Build PixieFit
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
-          if [ -f "./gradlew" ]; then
-            chmod +x ./gradlew
-            ./gradlew --no-daemon assembleDebug
-          else
-            gradle --no-daemon assembleDebug
-          fi
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleDebug
 
       - name: Find APK
         run: |
-          find "${{ env.PROJECT_DIR }}" -name "*.apk" -type f
+          APK_FILE=$(find "$PROJECT_DIR" -type f -name "*.apk" -print -quit)
+
+          if [ -z "$APK_FILE" ]; then
+            echo "ERROR: APK was not created!"
+            exit 1
+          fi
+
+          echo "APK found: $APK_FILE"
+          echo "APK_FILE=$APK_FILE" >> "$GITHUB_ENV"
 
       - name: Upload PixieFit APK
         uses: actions/upload-artifact@v4
         with:
           name: PixieFit-APK
-          path: ${{ env.PROJECT_DIR }}/**/*.apk
+          path: ${{ env.APK_FILE }}
+          if-no-files-found: error
