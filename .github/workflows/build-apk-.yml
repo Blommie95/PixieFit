@@ -1,0 +1,77 @@
+name: Build PixieFit APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PixieFit
+        uses: actions/checkout@v4
+
+      - name: Extract Android project
+        run: |
+          rm -rf extracted
+          mkdir extracted
+          unzip -o PixieFit-Android-Project.zip -d extracted
+          echo "Project files:"
+          find extracted -maxdepth 4 -type f | head -100
+
+      - name: Find Android project folder
+        id: find-project
+        run: |
+          SETTINGS_FILE=$(find extracted -name settings.gradle -o -name settings.gradle.kts | head -1)
+          if [ -z "$SETTINGS_FILE" ]; then
+            echo "ERROR: Could not find settings.gradle in extracted ZIP."
+            exit 1
+          fi
+          PROJECT_DIR=$(dirname "$SETTINGS_FILE")
+          echo "Android project found at: $PROJECT_DIR"
+          echo "project_dir=$PROJECT_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+
+      - name: Build PixieFit
+        run: |
+          cd "${{ steps.find-project.outputs.project_dir }}"
+          gradle --no-daemon assembleDebug
+
+      - name: Find APK
+        id: find-apk
+        run: |
+          APK=$(find extracted -path "*/build/outputs/apk/debug/*.apk" | head -1)
+          if [ -z "$APK" ]; then
+            echo "ERROR: APK was not created."
+            find extracted -type f | grep -E '\.apk$' || true
+            exit 1
+          fi
+          echo "APK found at: $APK"
+          echo "apk_path=$APK" >> "$GITHUB_OUTPUT"
+
+      - name: Upload PixieFit APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PixieFit-APK
+          path: ${{ steps.find-apk.outputs.apk_path }}
