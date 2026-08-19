@@ -26,7 +26,9 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir -p extracted
-          unzip -o "PixieFit-Android-Project.zip" -d extracted
+      ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
+echo "Using ZIP: $ZIP_FILE"
+unzip -o "$ZIP_FILE" -d extracted
 
       - name: Find Android project
         run: |
