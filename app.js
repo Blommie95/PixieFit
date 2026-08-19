@@ -17,7 +17,8 @@ const defaultFoods=[
 ];
 const notes=[["Consistency can be quiet.","You don’t have to do everything. Just keep coming back to yourself."],["Progress counts, even when it feels small.","One ordinary choice can still move you forward."],["Today doesn't need to be perfect.","Aim for helpful, not perfect."]];
 let state=JSON.parse(localStorage.getItem(KEY)||"null")||{target:1850,waterTarget:2000,weight:null,weights:[],customFoods:[],days:{},profile:{name:"",height:null,goalWeight:null,activity:1.2,onboarded:false}};
-state.profile=Object.assign({name:"",height:null,goalWeight:null,activity:1.2,onboarded:false},state.profile||{});\nconst todayKey=()=>new Date().toISOString().slice(0,10);
+state.profile=Object.assign({name:"",height:null,goalWeight:null,activity:1.2,onboarded:false},state.profile||{});
+const todayKey=()=>new Date().toISOString().slice(0,10);
 function day(){const k=todayKey(); if(!state.days[k]) state.days[k]={foods:[],water:0}; return state.days[k]}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
 function kcal(){return day().foods.reduce((s,f)=>s+f.calories,0)}
