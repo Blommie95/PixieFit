@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e83f7d">
+  <meta name="description" content="PixieFit — a gentle calorie, water and weight tracker.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>PixieFit</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-icon">✦</span><span>PixieFit</span></div>
+      <button class="pill-btn" id="settingsBtn"><span class="dot"></span> Settings</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-date" id="todayDate"></div>
+        <h1>Small choices.<br>Real progress.</h1>
+        <p>Let's take today one kind choice at a time.</p>
+      </section>
+
+      <section class="card energy-card">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Today's energy</div>
+            <h2 id="energyMessage">A little progress is progress.</h2>
+          </div>
+          <div class="target-badge"><span id="targetValue">1850</span> kcal<br>target</div>
+        </div>
+        <div class="ring-wrap">
+          <div class="calorie-ring" id="calorieRing">
+            <div class="ring-center"><strong id="eatenValue">0</strong><span>EATEN</span></div>
+          </div>
+        </div>
+        <div class="calorie-stats">
+          <div><strong id="remainingValue">1850</strong><span>remaining</span></div>
+          <div><strong id="percentValue">0%</strong><span>of target</span></div>
+        </div>
+      </section>
+
+      <section class="card food-card">
+        <div class="section-head">
+          <div><div class="eyebrow">Your food log</div><h2>What felt good today?</h2></div>
+          <button class="primary-btn" id="addFoodBtn">＋ Add</button>
+        </div>
+        <div id="foodLog"></div>
+      </section>
+
+      <section class="card water-card">
+        <div class="section-head">
+          <div><div class="eyebrow">💧 Water check</div><h2>A sip now is future-you's favor.</h2></div>
+          <strong class="percent-large" id="waterPercent">0%</strong>
+        </div>
+        <div class="progress"><div id="waterBar"></div></div>
+        <div class="water-total"><strong id="waterTotal">0.00</strong><span>/ <span id="waterTarget">2.0</span> L</span></div>
+        <div class="water-actions">
+          <button class="secondary-btn" id="subtractWater">−</button>
+          <button class="water-add-btn" id="addWaterBtn">＋ Add Water</button>
+        </div>
+      </section>
+
+      <section class="card weight-card">
+        <div class="section-head">
+          <div><div class="eyebrow">⚖️ Current weight</div><h2 id="weightValue">Not set</h2></div>
+          <button class="outline-btn" id="weightBtn">Update</button>
+        </div>
+        <div class="gentle-note">✧ A check-in, not a judgment.</div>
+      </section>
+
+      <section class="note-card">
+        <div class="eyebrow">A NOTE FOR TODAY</div>
+        <h2 id="dailyNote">Consistency can be quiet.</h2>
+        <p>You don't have to do everything. Just keep coming back to yourself.</p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="home">⌂<span>Home</span></button>
+      <button class="nav-item" id="historyBtn">◷<span>History</span></button>
+      <button class="nav-item" id="foodsBtn">♡<span>My Foods</span></button>
+    </nav>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <button class="close-btn" id="closeModal">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

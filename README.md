@@ -1,33 +1,19 @@
-# PixieFit 🌸
+# PixieFit
+Mobile-first calorie, water and weight tracker.
 
-PixieFit is a mobile-first personal calorie, hydration and weight tracker.
-
-## Current version
-
-- Home dashboard
-- 1,700 kcal default goal
-- 2,000 ml default water goal
-- 83 kg current weight
-- 70 kg goal weight
-- Food logging
-- Smart drink calculator
-- Water logging
-- Weight logging
+## Included
+- Daily calorie target and progress ring
+- Built-in starter food database with quantity scaling
+- Custom foods / My Foods
+- Breakfast, lunch, dinner and snack logging
+- Water quick-add: 250 ml, 350 ml, 500 ml, 750 ml, 1 L + custom
+- Weight tracking and history
 - Daily history
-- Progress tracking
-- Settings
-- Local phone storage
+- localStorage persistence
+- PWA manifest + service worker
 
-## Build without a laptop
+## Run
+Open `index.html` in a browser for a basic preview. For full PWA/service-worker behavior, serve the folder over HTTPS or localhost.
 
-This project includes a GitHub Actions workflow.
-
-1. Create a GitHub repository named `PixieFit`.
-2. Upload the contents of this project.
-3. Open the repository's **Actions** tab.
-4. Run **Build PixieFit APK**.
-5. Open the completed workflow run.
-6. Download the `PixieFit-debug-apk` artifact.
-7. Extract the APK and install it on Android.
-
-The GitHub-hosted runner provides the build environment; the workflow installs the Android SDK components it needs.
+## Important
+Food calorie values are estimates and should be replaced with label/database values where available.

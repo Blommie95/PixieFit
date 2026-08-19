@@ -1,0 +1,10 @@
+{
+  "name":"PixieFit",
+  "short_name":"PixieFit",
+  "start_url":".",
+  "display":"standalone",
+  "background_color":"#fff8fb",
+  "theme_color":"#e83f7d",
+  "description":"A gentle calorie, water and weight tracker.",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
