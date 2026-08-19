@@ -14,7 +14,7 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand"><span class="brand-icon">✦</span><span>PixieFit</span></div>
-      <button class="pill-btn" id="settingsBtn"><span class="dot"></span> Settings</button>
+      <button class="pill-btn" id="profileBtn">♡ Profile</button>
     </header>
 
     <main>
@@ -64,6 +64,19 @@
         </div>
       </section>
 
+      <section class="card progress-card">
+        <div class="section-head">
+          <div><div class="eyebrow">🌸 Your progress</div><h2>Little steps count.</h2></div>
+          <button class="outline-btn" id="progressBtn">View</button>
+        </div>
+        <div class="progress-grid">
+          <div><strong id="startWeight">—</strong><span>starting</span></div>
+          <div><strong id="lostWeight">0.0</strong><span>kg lost</span></div>
+          <div><strong id="goalWeight">—</strong><span>goal</span></div>
+        </div>
+        <div class="goal-track"><div id="goalBar"></div></div>
+      </section>
+
       <section class="card weight-card">
         <div class="section-head">
           <div><div class="eyebrow">⚖️ Current weight</div><h2 id="weightValue">Not set</h2></div>
@@ -94,5 +107,23 @@
   </div>
 
   <script src="app.js"></script>
+
+  <div class="onboarding" id="onboarding" hidden>
+    <div class="onboard-card">
+      <div class="onboard-logo">✦</div>
+      <div class="eyebrow">WELCOME TO PIXIEFIT</div>
+      <h2>Let's make this yours.</h2>
+      <p>Tell Pixie a little about your goal. You can change these details later.</p>
+      <div class="form-grid">
+        <div class="field"><label>Your name</label><input id="pName" placeholder="Your name"></div>
+        <div class="field"><label>Height (cm)</label><input id="pHeight" type="number" min="100" max="230" placeholder="168"></div>
+        <div class="field"><label>Current weight (kg)</label><input id="pWeight" type="number" min="30" max="300" step="0.1" placeholder="83"></div>
+        <div class="field"><label>Goal weight (kg)</label><input id="pGoal" type="number" min="30" max="300" step="0.1" placeholder="70"></div>
+        <div class="field"><label>Activity level</label><select id="pActivity"><option value="1.2">Mostly sedentary</option><option value="1.375">Lightly active</option><option value="1.55">Moderately active</option><option value="1.725">Very active</option></select></div>
+      </div>
+      <button class="primary-btn wide" id="finishOnboarding">Start my PixieFit</button>
+      <button class="outline-btn wide" id="skipOnboarding">I'll set this later</button>
+    </div>
+  </div>
 </body>
 </html>
